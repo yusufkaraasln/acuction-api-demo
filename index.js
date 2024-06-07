@@ -10,6 +10,9 @@ app.get("/", (req, res) => {
 
 const server = createServer(app);
 const io = new Server(server, {
+  path: "/socket.io",
+  transports: ["websocket"],
+  secure: true,
   cors: {
     origin: "*",
   },
