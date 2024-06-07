@@ -5,7 +5,7 @@ const { Server } = require("socket.io");
 const app = express();
 
 app.get("/", (req, res) => {
-  res.json({ message: true, data: null });
+  res.json({ message: true });
 });
 
 const server = createServer(app);
@@ -13,6 +13,7 @@ const io = new Server(server, {
   cors: {
     origin: "*",
   },
+  transports: ["websocket"],
 });
 
 let connectedUsers = new Map();
