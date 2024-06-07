@@ -5,7 +5,7 @@ const { Server } = require("socket.io");
 const app = express();
 
 app.get("/", (req, res) => {
-  res.json({ message: true });
+  res.json({ message: true, data: null });
 });
 
 const server = createServer(app);
