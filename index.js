@@ -8,8 +8,8 @@ app.get("/", (req, res) => {
   res.json({ message: true, data: null });
 });
 
- 
-const io = new Server(app, {
+const server = createServer(app);
+const io = new Server(server, {
   cors: {
     origin: "*",
   },
