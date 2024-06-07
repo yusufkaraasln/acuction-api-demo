@@ -1,7 +1,19 @@
 const express = require("express");
+const { createServer } = require("node:http");
 const { Server } = require("socket.io");
 
 const app = express();
+
+app.get("/", (req, res) => {
+  res.json({ message: true });
+});
+
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
 
 let connectedUsers = new Map();
 let messages = [];
@@ -36,19 +48,6 @@ const resetTimer = (additionalTime) => {
   timeLeft += additionalTime;
   startTimer();
 };
-
-const server = app.listen(3000, () => {
-  console.log("server running at http://localhost:3000");
-  startTimer();
-});
-
-const io = new Server(server, {
-  path: "/socket.io",
-  transports: ["websocket"],
-  cors: {
-    origin: "*",
-  },
-});
 
 io.on("connection", (socket) => {
   socket.emit("timeUpdate", timeLeft);
@@ -118,4 +117,9 @@ io.on("connection", (socket) => {
   //     messages.push(msg);
   //     io.emit("messages", messages);
   //   });
+});
+
+server.listen(3000, () => {
+  console.log("server running at http://localhost:3000");
+  startTimer();
 });
